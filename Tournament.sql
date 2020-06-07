@@ -1,15 +1,17 @@
 create database Tournament
 use  Tournament
+
 select *
 from Prizes
-select *--SCOPE_IDENTITY()
+select *
 from People
-
-delete from Teams
 select *
 from Teams
 select *
 from TeamMembers;
+select *
+from Tournaments
+
 --DBCC CHECKIDENT(Teams, RESEED, 0)
 create table Tournaments(
 	id int primary key identity,
