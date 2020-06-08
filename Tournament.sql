@@ -16,7 +16,8 @@ from Tournaments
 create table Tournaments(
 	id int primary key identity,
 	TournamentName varchar(50),
-	EntryFee money
+	EntryFee money,
+	Active bit
 	)
 create table TournamentEntries(
 	id int primary key identity,
@@ -68,6 +69,54 @@ create table MatchupEntries(
 
 --Procedure
 go
+create proc spTournamentEntries_Insert
+	@TournamentId int,
+	@TeamId int,
+	@id int =0 output
+as 
+begin
+	insert into TournamentEntries values (@TournamentId,@TeamId)
+	select @id=SCOPE_IDENTITY();
+end
+go
+alter procedure spTeams_Insert
+	@TeamName varchar(50),
+	@id int =0 output
+as
+begin
+	insert into Teams values(@TeamName)
+	select @id= SCOPE_IDENTITY();
+end
+go
+alter procedure spTeamMembers_Insert
+	@TeamId int,
+	@PersonId int	
+as
+begin
+	insert into TeamMembers values(@TeamId,@PersonId)
+	
+end
+go
+create procedure spTournaments_Insert
+	@TournamentName varchar(50),
+	@EnrtyFee money,
+	@id int= 0 output
+as
+begin
+	insert into Tournaments values(@TournamentName,@EnrtyFee,1);
+	select @id=SCOPE_IDENTITY();
+end
+go
+create procedure spTournamentPrizes_Insert
+	@TournamentId int,
+	@PrizeId int,
+	@id int= 0 output
+as
+begin
+	insert into TournamentPrizes values(@TournamentId,@PrizeId);
+	select @id=SCOPE_IDENTITY()
+end
+go
 alter procedure spPrizes_Insert
 	@placeNumber int,
 	@placeName varchar(50),
@@ -99,24 +148,7 @@ begin
 	select * from People
 end
 go
-alter procedure spTeams_Insert
-	@TeamName varchar(50),
-	@id int =0 output
-as
-begin
-	insert into Teams values(@TeamName)
-	select @id= SCOPE_IDENTITY();
-end
-go
-alter procedure spTeamMembers_Insert
-	@TeamId int,
-	@PersonId int	
-as
-begin
-	insert into TeamMembers values(@TeamId,@PersonId)
-	
-end
-go
+
 create procedure spTeam_GetAll
 as
 begin
