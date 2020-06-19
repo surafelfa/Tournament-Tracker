@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TrackerUI.Models
 {
+    /// <summary>
+    /// Represents one team in a mathup
+    /// </summary>
     public class MatchupEntryModel
     {
         /// <summary>

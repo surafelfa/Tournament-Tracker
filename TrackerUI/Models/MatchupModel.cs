@@ -9,10 +9,11 @@ namespace TrackerUI.Models
     /// </summary>
     public class MatchupModel
     {
+        
+        public int id { get; set; }
         /// <summary>
         /// The set of teams that were involved in this match
         /// </summary>
-        public int id { get; set; }
         public List<MatchupEntryModel> Entries { get; set; } = new List<MatchupEntryModel>();
         /// <summary>
         /// The winner of the match
