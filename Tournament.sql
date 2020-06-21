@@ -1,18 +1,33 @@
 create database Tournament
 use  Tournament
 
+delete Prizes
+delete TournamentPrizes
+delete Tournaments
+delete TournamentEntries
 select *
 from Prizes
 select *
 from People
+
 select *
 from Teams
+
 select *
 from TeamMembers;
+
 select *
 from Tournaments
 
---DBCC CHECKIDENT(Teams, RESEED, 0)
+select *
+from Matchups;
+
+select *
+from MatchupEntries
+
+select *
+from TournamentEntries
+--DBCC CHECKIDENT(Tournaments, RESEED, 0)
 create table Tournaments(
 	id int primary key identity,
 	TournamentName varchar(50),
@@ -68,6 +83,29 @@ create table MatchupEntries(
 	)
 
 --Procedure
+go
+create procedure spMatchupEntries_Insert
+	@MatchupId int,
+	@ParentMatchupId int,
+	@TeamCompetingId int,
+	@id int=0 output
+as 
+begin
+	insert MatchupEntries(MatchupId,ParentMatchupId,TeamCompetingId)
+	 values(@MatchupId,@ParentMatchupId,@TeamCompetingId);
+	
+	select @id=SCOPE_IDENTITY();
+end
+go
+alter procedure spMatchups_Insert
+	@TournamentId int,
+	@MatchupRound int,
+	@id int=0 output
+as
+begin
+	insert into Matchups(TournamentId,MatchupRound) values (@TournamentId,@MatchupRound);
+	select @id=SCOPE_IDENTITY();
+end
 go
 create proc spTournamentEntries_Insert
 	@TournamentId int,
@@ -176,7 +214,10 @@ begin
 	where m.TeamId=@TeamId;
 end
 --foreign key constraints
-
+ALTER TABLE Matchups
+ADD CONSTRAINT FK_Matchups_Tournaments
+FOREIGN KEY (TournamentId) REFERENCES Tournaments(id)
+--//////////////////////////////////////////////////
 ALTER TABLE TournamentEntries
 ADD CONSTRAINT FK_TournamentEntries_Tournments
 FOREIGN KEY (TournamentId) REFERENCES Tournaments(id)

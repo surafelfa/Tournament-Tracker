@@ -141,7 +141,7 @@ namespace TrackerUI.DataAccess
                 p.Add("@PrizeId", pz.id);
                 p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                con.Execute("spTeamMembers_Insert", p, commandType: CommandType.StoredProcedure);
+                con.Execute("spTournamentPrizes_Insert", p, commandType: CommandType.StoredProcedure);
             }
         }
         private void SaveTournamentEntries(SqlConnection con,TournamentModel model)
@@ -177,8 +177,24 @@ namespace TrackerUI.DataAccess
                         p = new DynamicParameters();
 
                         p.Add("@MatchupId", matchup.id);
-                        p.Add("@ParentMatchupId", entry.ParentMatchup);
-                        p.Add("@TeamCompetingId", entry.TeamCompeting.id);
+                        
+
+                        if (entry.ParentMatchup == null)
+                        {
+                            p.Add("@ParentMatchupId",  null);
+                        }
+                        else
+                        {
+                            p.Add("@ParentMatchupId", entry.ParentMatchup.id);
+                        }
+                        if (entry.TeamCompeting==null)
+                        {
+                            p.Add("@TeamCompetingId", null);
+                        }
+                        else
+                        {
+                            p.Add("@TeamCompetingId", entry.TeamCompeting.id);
+                        }
                         p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                         con.Execute("spMatchupEntries_Insert", p, commandType: CommandType.StoredProcedure);

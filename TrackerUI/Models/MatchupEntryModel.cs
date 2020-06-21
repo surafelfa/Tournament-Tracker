@@ -9,6 +9,7 @@ namespace TrackerUI.Models
     /// </summary>
     public class MatchupEntryModel
     {
+        public int id { get; set; }
         /// <summary>
         /// Reprensents one team in the match
         /// </summary>
