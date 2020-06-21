@@ -8,6 +8,12 @@ namespace TrackerUI
 {
     public static class GlobalConfig
     {
+        public const string PrizeFile = "PrizeModel.csv";
+        public const string PeopleFile = "PeopleModel.csv";
+        public const string TeamFile = "TeamModels.csv";
+        public const string TournamentFile = "TournamentModel.csv";
+        public const string MatchupFile = "MatchupModels.csv";
+        public const string MatchupEntryFile = "MatchupEntryModel.csv";
         public static IDataConnection Connection { get; private set; }
         public static void InitializeConncetions(DatabaseType db)
         {
