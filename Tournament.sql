@@ -83,6 +83,54 @@ create table MatchupEntries(
 	)
 
 --Procedure
+
+go
+create proc spMatchupEntries_GetByMatchup
+	@MatchupId int
+as
+begin
+	select *
+	from MatchupEntries
+	where MatchupId=@MatchupId
+end
+go
+alter procedure spMatchups_GetByTournament
+	@TournamentId int
+as
+begin
+	select m.*
+	from Matchups m
+	where m.TournamentId=@TournamentId
+	order by MatchupRound;
+end
+go
+alter procedure spTeam_GetByTournament
+	@TournamentId int
+as
+begin
+	select t.*
+	from Teams t
+	inner join TournamentEntries e on t.id = e.TeamId
+	where e.TournamentId=@TournamentId
+end
+go
+create proc spPrizes_GetByTournament
+	@TournamentId int
+as
+begin
+	select p.*
+	from Prizes p
+	inner join TournamentPrizes t on p.id=t.PrizeId
+	where t.TournamentId=@TournamentId;
+end
+go
+create proc spTournaments_GetAll
+as
+begin
+	select *
+	from Tournaments
+	where Active=1;
+end
 go
 create procedure spMatchupEntries_Insert
 	@MatchupId int,

@@ -30,7 +30,7 @@
         {
             this.headerLabel = new System.Windows.Forms.Label();
             this.loadExistingTouramentLabel = new ns1.BunifuCustomLabel();
-            this.loadExistingDropDown = new System.Windows.Forms.ComboBox();
+            this.loadExistingTournamentDropDown = new System.Windows.Forms.ComboBox();
             this.loadTournamentButton = new System.Windows.Forms.Button();
             this.createTournamentButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -57,13 +57,13 @@
             this.loadExistingTouramentLabel.TabIndex = 23;
             this.loadExistingTouramentLabel.Text = "Load Existing Tournament";
             // 
-            // loadExistingDropDown
+            // loadExistingTournamentDropDown
             // 
-            this.loadExistingDropDown.FormattingEnabled = true;
-            this.loadExistingDropDown.Location = new System.Drawing.Point(44, 99);
-            this.loadExistingDropDown.Name = "loadExistingDropDown";
-            this.loadExistingDropDown.Size = new System.Drawing.Size(350, 38);
-            this.loadExistingDropDown.TabIndex = 22;
+            this.loadExistingTournamentDropDown.FormattingEnabled = true;
+            this.loadExistingTournamentDropDown.Location = new System.Drawing.Point(44, 99);
+            this.loadExistingTournamentDropDown.Name = "loadExistingTournamentDropDown";
+            this.loadExistingTournamentDropDown.Size = new System.Drawing.Size(350, 38);
+            this.loadExistingTournamentDropDown.TabIndex = 22;
             // 
             // loadTournamentButton
             // 
@@ -104,7 +104,7 @@
             this.Controls.Add(this.createTournamentButton);
             this.Controls.Add(this.loadTournamentButton);
             this.Controls.Add(this.loadExistingTouramentLabel);
-            this.Controls.Add(this.loadExistingDropDown);
+            this.Controls.Add(this.loadExistingTournamentDropDown);
             this.Controls.Add(this.headerLabel);
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
@@ -119,7 +119,7 @@
 
         private System.Windows.Forms.Label headerLabel;
         private ns1.BunifuCustomLabel loadExistingTouramentLabel;
-        private System.Windows.Forms.ComboBox loadExistingDropDown;
+        private System.Windows.Forms.ComboBox loadExistingTournamentDropDown;
         private System.Windows.Forms.Button loadTournamentButton;
         private System.Windows.Forms.Button createTournamentButton;
     }
