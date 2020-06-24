@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.headerLabel = new ns1.BunifuCustomLabel();
-            this.thournamentName = new ns1.BunifuCustomLabel();
+            this.tournamentName = new ns1.BunifuCustomLabel();
             this.roundLabel = new ns1.BunifuCustomLabel();
-            this.rounDropDown = new System.Windows.Forms.ComboBox();
+            this.roundDropDown = new System.Windows.Forms.ComboBox();
             this.unplayedOnlycheckBox = new System.Windows.Forms.CheckBox();
             this.matchupListBox = new System.Windows.Forms.ListBox();
             this.teamOneName = new ns1.BunifuCustomLabel();
@@ -55,16 +55,16 @@
             this.headerLabel.TabIndex = 0;
             this.headerLabel.Text = "Tournament:";
             // 
-            // thournamentName
+            // tournamentName
             // 
-            this.thournamentName.AutoSize = true;
-            this.thournamentName.Font = new System.Drawing.Font("Segoe UI Light", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.thournamentName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.thournamentName.Location = new System.Drawing.Point(255, 32);
-            this.thournamentName.Name = "thournamentName";
-            this.thournamentName.Size = new System.Drawing.Size(150, 50);
-            this.thournamentName.TabIndex = 1;
-            this.thournamentName.Text = "<none>";
+            this.tournamentName.AutoSize = true;
+            this.tournamentName.Font = new System.Drawing.Font("Segoe UI Light", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tournamentName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            this.tournamentName.Location = new System.Drawing.Point(255, 32);
+            this.tournamentName.Name = "tournamentName";
+            this.tournamentName.Size = new System.Drawing.Size(150, 50);
+            this.tournamentName.TabIndex = 1;
+            this.tournamentName.Text = "<none>";
             // 
             // roundLabel
             // 
@@ -77,13 +77,14 @@
             this.roundLabel.TabIndex = 2;
             this.roundLabel.Text = "Round";
             // 
-            // rounDropDown
+            // roundDropDown
             // 
-            this.rounDropDown.FormattingEnabled = true;
-            this.rounDropDown.Location = new System.Drawing.Point(135, 81);
-            this.rounDropDown.Name = "rounDropDown";
-            this.rounDropDown.Size = new System.Drawing.Size(225, 38);
-            this.rounDropDown.TabIndex = 3;
+            this.roundDropDown.FormattingEnabled = true;
+            this.roundDropDown.Location = new System.Drawing.Point(135, 81);
+            this.roundDropDown.Name = "roundDropDown";
+            this.roundDropDown.Size = new System.Drawing.Size(225, 38);
+            this.roundDropDown.TabIndex = 3;
+            this.roundDropDown.SelectedIndexChanged += new System.EventHandler(this.RounDropDown_SelectedIndexChanged);
             // 
             // unplayedOnlycheckBox
             // 
@@ -208,9 +209,9 @@
             this.Controls.Add(this.teamOneName);
             this.Controls.Add(this.matchupListBox);
             this.Controls.Add(this.unplayedOnlycheckBox);
-            this.Controls.Add(this.rounDropDown);
+            this.Controls.Add(this.roundDropDown);
             this.Controls.Add(this.roundLabel);
-            this.Controls.Add(this.thournamentName);
+            this.Controls.Add(this.tournamentName);
             this.Controls.Add(this.headerLabel);
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
@@ -224,9 +225,9 @@
         #endregion
 
         private ns1.BunifuCustomLabel headerLabel;
-        private ns1.BunifuCustomLabel thournamentName;
+        private ns1.BunifuCustomLabel tournamentName;
         private ns1.BunifuCustomLabel roundLabel;
-        private System.Windows.Forms.ComboBox rounDropDown;
+        private System.Windows.Forms.ComboBox roundDropDown;
         private System.Windows.Forms.CheckBox unplayedOnlycheckBox;
         private System.Windows.Forms.ListBox matchupListBox;
         private ns1.BunifuCustomLabel teamOneName;
