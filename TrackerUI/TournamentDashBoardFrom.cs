@@ -17,6 +17,7 @@ namespace TrackerUI
         public TournamentDashBoardForm()
         {
             InitializeComponent();
+
             WireUpLists();
         }
         private void WireUpLists()

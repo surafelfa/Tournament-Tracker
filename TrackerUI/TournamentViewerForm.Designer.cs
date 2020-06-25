@@ -39,7 +39,7 @@
             this.teamOneScoreValue = new System.Windows.Forms.TextBox();
             this.teamTwoScoreValue = new System.Windows.Forms.TextBox();
             this.teamTwoScoreLabel = new ns1.BunifuCustomLabel();
-            this.teamTwoNameLabel = new ns1.BunifuCustomLabel();
+            this.teamTwoName = new ns1.BunifuCustomLabel();
             this.versusLabel = new ns1.BunifuCustomLabel();
             this.scoreButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -84,7 +84,7 @@
             this.roundDropDown.Name = "roundDropDown";
             this.roundDropDown.Size = new System.Drawing.Size(225, 38);
             this.roundDropDown.TabIndex = 3;
-            this.roundDropDown.SelectedIndexChanged += new System.EventHandler(this.RounDropDown_SelectedIndexChanged);
+            this.roundDropDown.SelectedIndexChanged += new System.EventHandler(this.RoundDropDown_SelectedIndexChanged);
             // 
             // unplayedOnlycheckBox
             // 
@@ -108,6 +108,7 @@
             this.matchupListBox.Name = "matchupListBox";
             this.matchupListBox.Size = new System.Drawing.Size(316, 212);
             this.matchupListBox.TabIndex = 5;
+            this.matchupListBox.SelectedIndexChanged += new System.EventHandler(this.MatchupListBox_SelectedIndexChanged);
             // 
             // teamOneName
             // 
@@ -156,16 +157,16 @@
             this.teamTwoScoreLabel.TabIndex = 10;
             this.teamTwoScoreLabel.Text = "Score";
             // 
-            // teamTwoNameLabel
+            // teamTwoName
             // 
-            this.teamTwoNameLabel.AutoSize = true;
-            this.teamTwoNameLabel.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.teamTwoNameLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.teamTwoNameLabel.Location = new System.Drawing.Point(375, 291);
-            this.teamTwoNameLabel.Name = "teamTwoNameLabel";
-            this.teamTwoNameLabel.Size = new System.Drawing.Size(172, 37);
-            this.teamTwoNameLabel.TabIndex = 9;
-            this.teamTwoNameLabel.Text = "< team two>";
+            this.teamTwoName.AutoSize = true;
+            this.teamTwoName.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.teamTwoName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
+            this.teamTwoName.Location = new System.Drawing.Point(375, 291);
+            this.teamTwoName.Name = "teamTwoName";
+            this.teamTwoName.Size = new System.Drawing.Size(172, 37);
+            this.teamTwoName.TabIndex = 9;
+            this.teamTwoName.Text = "< team two>";
             // 
             // versusLabel
             // 
@@ -203,7 +204,7 @@
             this.Controls.Add(this.versusLabel);
             this.Controls.Add(this.teamTwoScoreValue);
             this.Controls.Add(this.teamTwoScoreLabel);
-            this.Controls.Add(this.teamTwoNameLabel);
+            this.Controls.Add(this.teamTwoName);
             this.Controls.Add(this.teamOneScoreValue);
             this.Controls.Add(this.teamOneScoreLabel);
             this.Controls.Add(this.teamOneName);
@@ -235,7 +236,7 @@
         private System.Windows.Forms.TextBox teamOneScoreValue;
         private System.Windows.Forms.TextBox teamTwoScoreValue;
         private ns1.BunifuCustomLabel teamTwoScoreLabel;
-        private ns1.BunifuCustomLabel teamTwoNameLabel;
+        private ns1.BunifuCustomLabel teamTwoName;
         private ns1.BunifuCustomLabel versusLabel;
         private System.Windows.Forms.Button scoreButton;
     }

@@ -14,7 +14,7 @@ namespace TrackerUI.Models
         /// <summary>
         /// The set of teams that were involved in this match
         /// </summary>
-        public List<MatchupEntryModel> Entries { get; set; } = new List<MatchupEntryModel>();
+        public List<MatchupEntryModel> Entries { get; set; }= new List<MatchupEntryModel>();
         /// <summary>
         /// the id from the database that will be used to identify the winner
         /// </summary>
@@ -41,7 +41,7 @@ namespace TrackerUI.Models
                         }
                         else
                         {
-                            output += $" vs {me.TeamCompeting.TeamName}";
+                            output += $" vs. {me.TeamCompeting.TeamName}";
                         } 
                     }
                     else
