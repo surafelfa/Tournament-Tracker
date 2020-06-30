@@ -14,12 +14,21 @@ namespace TrackerUI
     public partial class TournamentViewerForm: Form
     {
         private TournamentModel tournament;
-        List<int> rounds = new List<int>();
-        List<MatchupModel> selectedMatchups = new List<MatchupModel>();
+        BindingList<int> rounds = new BindingList<int>();
+        BindingList<MatchupModel> selectedMatchups = new BindingList<MatchupModel>();
+
+        BindingSource roundsBinding = new BindingSource();
+        BindingSource matchupsBinding = new BindingSource();
+
         public TournamentViewerForm(TournamentModel tournamentModel)
         {
             InitializeComponent();
             tournament = tournamentModel;
+
+            WireUpList();
+            //WireUpRoundsLists();
+            //WireUpMatchupsLists();
+
             LoadFormData();
             LoadRounds();
         }
@@ -27,21 +36,30 @@ namespace TrackerUI
         {
             tournamentName.Text = tournament.TournamentName;
         }
-        private void WireUpRoundsLists()
+        private void WireUpList()
         {
-            roundDropDown.DataSource = null;
             roundDropDown.DataSource = rounds;
+            matchupListBox.DataSource = selectedMatchups;// matchupsBinding;
+            matchupListBox.DisplayMember = "DisplayName";
+        }
+      /*  private void WireUpRoundsLists()
+        {
+            //roundDropDown.DataSource = null;
+           // roundsBinding.DataSource = rounds;
+            roundDropDown.DataSource = rounds;// Binding;
 
         }
         private void WireUpMatchupsLists()
         {
-            //matchupListBox.DataSource = null;
-            matchupListBox.DataSource = selectedMatchups;
+            // matchupListBox.DataSource = null;
+           // matchupsBinding.DataSource = selectedMatchups;
+            matchupListBox.DataSource = selectedMatchups;// matchupsBinding;
             matchupListBox.DisplayMember = "DisplayName";
-        }
+        }*/
         private void LoadRounds()
         {
-            rounds = new List<int>();
+            //rounds = new List<int>();
+            rounds.Clear();
             rounds.Add(1);
             int currRound = 1;
             foreach(List<MatchupModel>matchups in tournament.Rounds)
@@ -52,29 +70,38 @@ namespace TrackerUI
                     rounds.Add(currRound);
                 }
             }
-            WireUpRoundsLists();
+            LoadMatchups(1);
+           // roundsBinding.ResetBindings(false);
+           // WireUpRoundsLists();
         }
 
         private void RoundDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadMatchups();
+            LoadMatchups((int)roundDropDown.SelectedItem);
         }
-        private void LoadMatchups()
+        private void LoadMatchups(int round)
         {
-            int round = (int)roundDropDown.SelectedItem;
+           
             foreach (List<MatchupModel> matchups in tournament.Rounds)
             {
                 if (matchups.First().MatchupRound==round)
                 {
-                    selectedMatchups = matchups;
+                    //selectedMatchups.Clear();
+                    foreach(MatchupModel m in matchups)
+                    {
+                        selectedMatchups.Add(m);
+                    }
+                   // selectedMatchups = matchups;
                 }
             }
-            WireUpMatchupsLists();
+            LoadMatchup(selectedMatchups.First());
+           // matchupsBinding.ResetBindings(false);
+           // WireUpMatchupsLists();
         }
-        private void LoadMatchup()
+        private void LoadMatchup(MatchupModel m)
         {
-            MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
-            //int x = (int)m.Entries.Count;
+            //MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
+
             for (int i = 0; i < m.Entries.Count; i++)
             {
                 if (i==0)
@@ -83,10 +110,14 @@ namespace TrackerUI
                     {
                         teamOneName.Text = m.Entries[0].TeamCompeting.TeamName;
                         teamOneScoreValue.Text = m.Entries[0].Score.ToString();
+
+                        teamTwoName.Text = "<bye>";
+                        teamTwoScoreValue.Text = "0";
                     }
                     else
                     {
                         teamOneName.Text = "Not Yet Set";
+                        teamOneScoreValue.Text = "0";
                     }
                 }
                 if (i == 1)
@@ -99,13 +130,14 @@ namespace TrackerUI
                     else
                     {
                         teamTwoName.Text = "Not Yet Set";
+                        teamTwoScoreValue.Text = "0";
                     }
                 }
             }
         }
         private void MatchupListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadMatchup();
+            LoadMatchup((MatchupModel)matchupListBox.SelectedItem);
         }
     }
 }
