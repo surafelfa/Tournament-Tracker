@@ -86,7 +86,7 @@ namespace TrackerUI
             {
                 if (matchups.First().MatchupRound==round)
                 {
-                    //selectedMatchups.Clear();
+                    selectedMatchups.Clear();
                     foreach(MatchupModel m in matchups)
                     {
                         selectedMatchups.Add(m);
@@ -137,7 +137,15 @@ namespace TrackerUI
         }
         private void MatchupListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LoadMatchup((MatchupModel)matchupListBox.SelectedItem);
+            if ((MatchupModel)matchupListBox.SelectedItem==null)
+            {
+
+            }
+            else
+            {
+                LoadMatchup((MatchupModel)matchupListBox.SelectedItem);
+            }
+            
         }
     }
 }
