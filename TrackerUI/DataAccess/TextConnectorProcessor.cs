@@ -288,8 +288,11 @@ namespace TrackerUI.DataAccess.TextHepler
                 {
                     p.Winner = LookupTeamById(int.Parse(cols[2]));
                 }
+                if (cols[3]!="")
+                {
+                    p.MatchupRound = int.Parse(cols[3]);
+                }
                 
-                p.MatchupRound = int.Parse(cols[3]);
                 output.Add(p);
             }
             return output;

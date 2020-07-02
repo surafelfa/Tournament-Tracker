@@ -196,9 +196,26 @@ namespace TrackerUI
             {
                 MessageBox.Show("I do not handle tie game.");
             }
+            foreach (List<MatchupModel> round in tournament.Rounds)
+            {
+                foreach (MatchupModel rm in round)
+                {
+                    foreach (MatchupEntryModel me in rm.Entries)
+                    {
+                        if (me.ParentMatchup!=null)
+                        {
+                            if (me.ParentMatchup.id==m.id)
+                            {
+                                me.TeamCompeting = m.Winner;
+                                GlobalConfig.Connection.UpdateMatchup(rm);
+                            }
+                        }
+                    }
+                }
+            }
             LoadMatchups((int)roundDropDown.SelectedItem);
 
-            GlobalConfig.Connection.UpdateMatchups(m);
+            GlobalConfig.Connection.UpdateMatchup(m);
         }
 
         private void UnplayedOnlycheckBox_CheckedChanged(object sender, EventArgs e)

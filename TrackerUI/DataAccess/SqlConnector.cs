@@ -309,25 +309,33 @@ namespace TrackerUI.DataAccess
             return output;
         }
 
-        public void UpdateMatchups(MatchupModel model)
+        public void UpdateMatchup(MatchupModel model)
         {
             string constr = "Server=.;database=Tournament;uid=sur;pwd=0000;";
             using (SqlConnection con = new SqlConnection(constr))
             {
                 var p = new DynamicParameters();
-                p.Add("@id", model.id);
-                p.Add("@WinnerId", model.Winner.id);
 
-                con.Execute("spMatchups_Update", p, commandType: CommandType.StoredProcedure);
+                if (model.Winner!=null)
+                {
+                    p.Add("@id", model.id);
+                    p.Add("@WinnerId", model.Winner.id);
+                    con.Execute("spMatchups_Update", p, commandType: CommandType.StoredProcedure);
+                }
+
+                
 
                 foreach (MatchupEntryModel me in model.Entries)
                 {
-                    p = new DynamicParameters();
-                    p.Add("@id", me.id);
-                    p.Add("@TeamCompetingId", me.TeamCompeting.id);
-                    p.Add("@Score", me.Score);
+                    if (me.TeamCompeting!=null)
+                    {
+                        p = new DynamicParameters();
+                        p.Add("@id", me.id);
+                        p.Add("@TeamCompetingId", me.TeamCompeting.id);
+                        p.Add("@Score", me.Score);
 
-                    con.Execute("spMatchupEntries_Update", p, commandType: CommandType.StoredProcedure);
+                        con.Execute("spMatchupEntries_Update", p, commandType: CommandType.StoredProcedure); 
+                    }
 
                 }
             }
