@@ -42,7 +42,7 @@ namespace TrackerUI.DataAccess
         /// <returns>the prize information including the unique identifier.</returns>
         public PrizeModel CreatePrize(PrizeModel model)
         {
-           string constr = "Server=.;database=Tournament;uid=sur;pwd=0000;";
+            string constr = "Server=.;database=Tournament;uid=sur;pwd=0000;";
             using (SqlConnection con = new SqlConnection(constr))
             {
                 con.Open();
@@ -59,7 +59,7 @@ namespace TrackerUI.DataAccess
                 model.id = (int)cmd.Parameters["@id"].Value;
                 return model;
             }
-            
+
             /*using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournament")))
             {
                 var p = new DynamicParameters();
@@ -91,12 +91,12 @@ namespace TrackerUI.DataAccess
                 cmd.Parameters.Add(outputParam);
                 cmd.ExecuteNonQuery();
                 model.id = (int)cmd.Parameters["@id"].Value;
-                foreach(PersonModel tm in model.TeamMembers)
+                foreach (PersonModel tm in model.TeamMembers)
                 {
                     cmd = new SqlCommand("dbo.spTeamMembers_Insert", con);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@TeamId", model.id);
-                    cmd.Parameters.AddWithValue("@PersonId",tm.id );
+                    cmd.Parameters.AddWithValue("@PersonId", tm.id);
                     cmd.ExecuteNonQuery();
                 }
                 return model;
@@ -116,11 +116,11 @@ namespace TrackerUI.DataAccess
                 SaveTournamentEntries(con, model);
 
                 SaveTournamentRounds(con, model);
-               
+
                 //return model;
             }
         }
-        private void SaveTournament(SqlConnection con,TournamentModel model)
+        private void SaveTournament(SqlConnection con, TournamentModel model)
         {
             var p = new DynamicParameters();
             p.Add("@TournamentName", model.TournamentName);
@@ -144,9 +144,9 @@ namespace TrackerUI.DataAccess
                 con.Execute("spTournamentPrizes_Insert", p, commandType: CommandType.StoredProcedure);
             }
         }
-        private void SaveTournamentEntries(SqlConnection con,TournamentModel model)
+        private void SaveTournamentEntries(SqlConnection con, TournamentModel model)
         {
-           var p = new DynamicParameters();
+            var p = new DynamicParameters();
             foreach (TeamModel tm in model.EnteredTeams)
             {
                 p = new DynamicParameters();
@@ -159,16 +159,16 @@ namespace TrackerUI.DataAccess
         }
         private void SaveTournamentRounds(SqlConnection con, TournamentModel model)
         {
-            foreach(List<MatchupModel> round in model.Rounds)
+            foreach (List<MatchupModel> round in model.Rounds)
             {
-                foreach(MatchupModel matchup in round)
+                foreach (MatchupModel matchup in round)
                 {
                     var p = new DynamicParameters();
                     p.Add("@TournamentId", model.id);
                     p.Add("@MatchupRound", matchup.MatchupRound);
                     p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                    con.Execute("spMatchups_Insert",p,commandType: CommandType.StoredProcedure);
+                    con.Execute("spMatchups_Insert", p, commandType: CommandType.StoredProcedure);
 
                     matchup.id = p.Get<int>("@id");
 
@@ -177,17 +177,17 @@ namespace TrackerUI.DataAccess
                         p = new DynamicParameters();
 
                         p.Add("@MatchupId", matchup.id);
-                        
+
 
                         if (entry.ParentMatchup == null)
                         {
-                            p.Add("@ParentMatchupId",  null);
+                            p.Add("@ParentMatchupId", null);
                         }
                         else
                         {
                             p.Add("@ParentMatchupId", entry.ParentMatchup.id);
                         }
-                        if (entry.TeamCompeting==null)
+                        if (entry.TeamCompeting == null)
                         {
                             p.Add("@TeamCompetingId", null);
                         }
@@ -200,8 +200,8 @@ namespace TrackerUI.DataAccess
                         con.Execute("spMatchupEntries_Insert", p, commandType: CommandType.StoredProcedure);
                     }
                 }
-                
-                
+
+
             }
         }
         public List<PersonModel> GetPerson_All()
@@ -224,13 +224,13 @@ namespace TrackerUI.DataAccess
             {
                 con.Open();
                 output = con.Query<TeamModel>("spTeam_GetAll").ToList();
-                foreach(TeamModel team in output)
+                foreach (TeamModel team in output)
                 {
                     var p = new DynamicParameters();
                     p.Add("@TeamId", team.id);
                     team.TeamMembers = con.Query<PersonModel>("spTeamMembers_GetByTeam", p, commandType: CommandType.StoredProcedure).ToList();
                 }
-               
+
             }
             return output;
 
@@ -244,15 +244,15 @@ namespace TrackerUI.DataAccess
             {
                 var p = new DynamicParameters();
                 output = con.Query<TournamentModel>("spTournaments_GetAll").ToList();
-                foreach(TournamentModel t in output)
+                foreach (TournamentModel t in output)
                 {
                     p = new DynamicParameters();
                     //populate prizes
                     p.Add("@TournamentId", t.id);
-                    t.Prizes = con.Query<PrizeModel>("spPrizes_GetByTournament",p,commandType:CommandType.StoredProcedure).ToList();
+                    t.Prizes = con.Query<PrizeModel>("spPrizes_GetByTournament", p, commandType: CommandType.StoredProcedure).ToList();
                     //populate teams
                     t.EnteredTeams = con.Query<TeamModel>("spTeam_GetByTournament", p, commandType: CommandType.StoredProcedure).ToList();
-                    foreach(TeamModel team in t.EnteredTeams)
+                    foreach (TeamModel team in t.EnteredTeams)
                     {
                         p = new DynamicParameters();
                         p.Add("@TeamId", team.id);
@@ -264,7 +264,7 @@ namespace TrackerUI.DataAccess
                     //populate rounds
                     List<MatchupModel> matchups = con.Query<MatchupModel>("spMatchups_GetByTournament", p, commandType: CommandType.StoredProcedure).ToList();
 
-                    foreach(MatchupModel m in matchups)
+                    foreach (MatchupModel m in matchups)
                     {
                         p = new DynamicParameters();
                         p.Add("@MatchupId", m.id);
@@ -273,17 +273,17 @@ namespace TrackerUI.DataAccess
 
                         List<TeamModel> allTeams = GetTeam_All();
 
-                        if (m.WinnerId>0)
+                        if (m.WinnerId > 0)
                         {
                             m.Winner = allTeams.Where(x => x.id == m.WinnerId).First();
                         }
-                        foreach(var me in m.Entries)
+                        foreach (var me in m.Entries)
                         {
-                            if (me.TeamCompetingId>0)
+                            if (me.TeamCompetingId > 0)
                             {
                                 me.TeamCompeting = allTeams.Where(x => x.id == me.TeamCompetingId).First();
                             }
-                            if (me.ParentMatchupId>0)
+                            if (me.ParentMatchupId > 0)
                             {
                                 me.ParentMatchup = matchups.Where(x => x.id == me.ParentMatchupId).First();
                             }
@@ -293,9 +293,9 @@ namespace TrackerUI.DataAccess
 
                     int currRound = 1;
 
-                    foreach(MatchupModel m in matchups)
+                    foreach (MatchupModel m in matchups)
                     {
-                        if (m.MatchupRound>currRound)
+                        if (m.MatchupRound > currRound)
                         {
                             t.Rounds.Add(currRow);
                             currRow = new List<MatchupModel>();
@@ -307,6 +307,31 @@ namespace TrackerUI.DataAccess
                 }
             }
             return output;
+        }
+
+        public void UpdateMatchups(MatchupModel model)
+        {
+            string constr = "Server=.;database=Tournament;uid=sur;pwd=0000;";
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                var p = new DynamicParameters();
+                p.Add("@id", model.id);
+                p.Add("@WinnerId", model.Winner.id);
+
+                con.Execute("spMatchups_Update", p, commandType: CommandType.StoredProcedure);
+
+                foreach (MatchupEntryModel me in model.Entries)
+                {
+                    p = new DynamicParameters();
+                    p.Add("@id", me.id);
+                    p.Add("@TeamCompetingId", me.TeamCompeting.id);
+                    p.Add("@Score", me.Score);
+
+                    con.Execute("spMatchupEntries_Update", p, commandType: CommandType.StoredProcedure);
+
+                }
+            }
+
         }
     }
 }
