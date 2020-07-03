@@ -13,7 +13,7 @@ namespace TrackerUI.DataAccess
     public class SqlConnector : IDataConnection
     {
         private const string db = "Tournament", password = "0000";
-        public PersonModel CreatePerson(PersonModel model)
+        public void CreatePerson(PersonModel model)
         {
             string constr = "Server=.;database=Tournament;uid=sur;pwd=0000;";
             using (SqlConnection con = new SqlConnection(constr))
@@ -30,7 +30,7 @@ namespace TrackerUI.DataAccess
                 cmd.Parameters.Add(outputParam);
                 cmd.ExecuteNonQuery();
                 model.id = (int)cmd.Parameters["@id"].Value;
-                return model;
+              
             }
         }
 
@@ -40,7 +40,7 @@ namespace TrackerUI.DataAccess
         /// </summary>
         /// <param name="model">the prize information</param>
         /// <returns>the prize information including the unique identifier.</returns>
-        public PrizeModel CreatePrize(PrizeModel model)
+        public void CreatePrize(PrizeModel model)
         {
             string constr = "Server=.;database=Tournament;uid=sur;pwd=0000;";
             using (SqlConnection con = new SqlConnection(constr))
@@ -57,7 +57,6 @@ namespace TrackerUI.DataAccess
                 cmd.Parameters.Add(outputParam);
                 cmd.ExecuteNonQuery();
                 model.id = (int)cmd.Parameters["@id"].Value;
-                return model;
             }
 
             /*using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournament")))
@@ -76,7 +75,7 @@ namespace TrackerUI.DataAccess
 
         }
 
-        public TeamModel CreateTeam(TeamModel model)
+        public void CreateTeam(TeamModel model)
         {
             string constr = "Server=.;database=Tournament;uid=sur;pwd=0000;";
             using (SqlConnection con = new SqlConnection(constr))
@@ -99,7 +98,6 @@ namespace TrackerUI.DataAccess
                     cmd.Parameters.AddWithValue("@PersonId", tm.id);
                     cmd.ExecuteNonQuery();
                 }
-                return model;
             }
         }
 

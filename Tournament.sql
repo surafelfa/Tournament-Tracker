@@ -83,6 +83,27 @@ create table MatchupEntries(
 	)
 
 --Procedure
+go
+create proc spMatchupEntries_Update
+	@id int,
+	@TeamCompetingId int=null,
+	@Score float=null
+as
+begin
+	update MatchupEntries
+	set TeamCompetingId=@TeamCompetingId,Score=@Score
+	where id=@id
+end
+go
+create proc spMatchups_Update
+	@id int,
+	@WinnerId int
+as
+begin
+	update Matchups
+	set WinnerId=@WinnerId
+	where id=@id
+end
 
 go
 create proc spMatchupEntries_GetByMatchup
