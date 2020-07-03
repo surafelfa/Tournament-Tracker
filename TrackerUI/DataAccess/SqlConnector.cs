@@ -115,7 +115,7 @@ namespace TrackerUI.DataAccess
 
                 SaveTournamentRounds(con, model);
 
-                //return model;
+                TournamentLogic.UpdateTournamentResults(model);
             }
         }
         private void SaveTournament(SqlConnection con, TournamentModel model)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,108 @@ namespace TrackerUI
             model.Rounds.Add(CreateFirstRound(byes, randomizedTeams));
 
             CreateOtherRounds(model, rounds);
+            //UpdateTournamentResults(model);
+        }
+        public static void UpdateTournamentResults(TournamentModel model)
+        {
+            List<MatchupModel> toScore = new List<MatchupModel>();
+            foreach (List<MatchupModel> round in model.Rounds)
+            {
+                foreach (MatchupModel rm  in round)
+                {
+                    if (rm.Winner==null&&(rm.Entries.Any(x=>x.Score!=0)||rm.Entries.Count==1))
+                    {
+                        toScore.Add(rm);
+                    }
+                }
+            }
+            MarkWinnerInMatchups(toScore);
 
+            AdvanceWinner(toScore,model);
+
+            toScore.ForEach(x => GlobalConfig.Connection.UpdateMatchup(x));
+            //GlobalConfig.Connection.UpdateMatchup(m);
+        }
+        private static void AdvanceWinner(List<MatchupModel> models,TournamentModel tournament)
+        {
+            foreach (MatchupModel m in models)
+            {
+                foreach (List<MatchupModel> round in tournament.Rounds)
+                {
+                    foreach (MatchupModel rm in round)
+                    {
+                        foreach (MatchupEntryModel  me in rm.Entries)
+                        {
+                            if (me.ParentMatchup != null)
+                            {
+                                if (me.ParentMatchup.id == m.id)
+                                {
+                                    me.TeamCompeting = m.Winner;
+                                    GlobalConfig.Connection.UpdateMatchup(rm);
+                                }
+                            } 
+                        }
+                    }
+                }
+            }
+        }
+        private static void MarkWinnerInMatchups(List<MatchupModel> models)
+        {
+            string greaterWins = ConfigurationManager.AppSettings["greaterWins"];
+
+            foreach (MatchupModel m in models)
+            {
+                //checks for bye week entry
+                if (m.Entries.Count==1)
+                {
+                    m.Winner = m.Entries[0].TeamCompeting;
+                    continue;
+                }
+                //0 means false or low score wins
+                if (greaterWins == "0")
+                {
+                    if (m.Entries[0].Score<m.Entries[1].Score)
+                    {
+                        m.Winner = m.Entries[0].TeamCompeting;
+                    }
+                    else if (m.Entries[1].Score < m.Entries[0].Score)
+                    {
+                        m.Winner = m.Entries[1].TeamCompeting;
+                    }
+                    else
+                    {
+                        throw new Exception("we do not allow ties in this application.");
+                    }
+                }
+                else
+                {
+                    //1 mean true or high score wins
+                    if (m.Entries[0].Score > m.Entries[1].Score)
+                    {
+                        m.Winner = m.Entries[0].TeamCompeting;
+                    }
+                    else if (m.Entries[1].Score > m.Entries[0].Score)
+                    {
+                        m.Winner = m.Entries[1].TeamCompeting;
+                    }
+                    else
+                    {
+                        throw new Exception("we do not allow ties in this application.");
+                    }
+                } 
+            }
+            //if (teamOneScore > teamTwoScore)
+            //{
+            //    m.Winner = m.Entries[0].TeamCompeting;
+            //}
+            //else if (teamOneScore < teamTwoScore)
+            //{
+            //    m.Winner = m.Entries[1].TeamCompeting;
+            //}
+            //else
+            //{
+            //    MessageBox.Show("I do not handle tie game.");
+            //}
         }
         private static void CreateOtherRounds(TournamentModel model,int rounds)
         {

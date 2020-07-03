@@ -112,7 +112,14 @@ namespace TrackerUI
             tm.EnteredTeams = selectedTeams;
 
             TournamentLogic.CreateRounds(tm);
+
             GlobalConfig.Connection.CreateTournament(tm);
+
+            
+
+            TournamentViewerForm frm = new TournamentViewerForm(tm);
+            frm.Show();
+            this.Close();
         }
     }
 }
