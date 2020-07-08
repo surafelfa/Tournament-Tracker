@@ -115,6 +115,8 @@ namespace TrackerUI
 
             GlobalConfig.Connection.CreateTournament(tm);
 
+            tm.AlterUsersToNewRound();
+
             TournamentViewerForm frm = new TournamentViewerForm(tm);
             frm.Show();
             this.Close();

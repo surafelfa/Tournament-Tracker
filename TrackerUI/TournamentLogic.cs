@@ -43,10 +43,10 @@ namespace TrackerUI
 
             if (endingRound>startingRound)
             {
-                AlterUsersToNewRound(model);
+                model.AlterUsersToNewRound();
             }
         }
-        private static void AlterUsersToNewRound(this TournamentModel model)
+        public static void AlterUsersToNewRound(this TournamentModel model)
         {
             int currentRoundNumber = model.CheckCurrentRound();
             List<MatchupModel> currentRound = model.Rounds.Where(x => x.First().MatchupRound == currentRoundNumber).First();
@@ -69,8 +69,8 @@ namespace TrackerUI
             {
                 return;
             }
-            string fromAddress = "";
-            List<string> to = new List<string>();
+
+            string to = "";
             string subject = "";
             StringBuilder body = new StringBuilder();
 
@@ -93,9 +93,8 @@ namespace TrackerUI
                 body.AppendLine("Enjoy your  round off!");
                 body.AppendLine("~Tournament Tracker");
             }
-            to.Add(p.EmailAddress);
-            fromAddress = GlobalConfig.AppKeyLookup("senderEmail");
-            EmailLogic.SendEmail(fromAddress, to, subject, body.ToString);
+            to=p.EmailAddress;
+            EmailLogic.SendEmail(to, subject, body.ToString());
         }
 
         private static int CheckCurrentRound(this TournamentModel model)
@@ -174,22 +173,10 @@ namespace TrackerUI
                     }
                     else
                     {
-                        throw new Exception("we do not allow ties in this application.");
+                        throw new Exception("We do not allow ties in this application.");
                     }
                 } 
             }
-            //if (teamOneScore > teamTwoScore)
-            //{
-            //    m.Winner = m.Entries[0].TeamCompeting;
-            //}
-            //else if (teamOneScore < teamTwoScore)
-            //{
-            //    m.Winner = m.Entries[1].TeamCompeting;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("I do not handle tie game.");
-            //}
         }
         private static void CreateOtherRounds(TournamentModel model,int rounds)
         {
