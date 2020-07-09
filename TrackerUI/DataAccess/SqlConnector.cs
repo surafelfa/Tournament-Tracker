@@ -339,5 +339,18 @@ namespace TrackerUI.DataAccess
             }
 
         }
+
+        public void CompleteTournament(TournamentModel model)
+        {
+            // 
+            string constr = "Server=.;database=Tournament;uid=sur;pwd=0000;";
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                var p = new DynamicParameters();
+                p.Add("@id", model.id);
+
+                con.Execute("spTournaments_Complete", p, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

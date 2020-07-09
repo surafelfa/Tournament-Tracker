@@ -84,6 +84,15 @@ create table MatchupEntries(
 
 --Procedure
 go
+create proc spTournaments_Complete
+	@id int
+as 
+begin
+	update Tournaments
+	set Active =0
+	where id=@id
+end
+go
 create proc spMatchupEntries_Update
 	@id int,
 	@TeamCompetingId int=null,
